@@ -1,3 +1,9 @@
+/* styles.css */
+
+#game-container {
+    text-align: center;
+}
+
 #puzzle {
     border-collapse: collapse;
     margin: 20px auto;
@@ -12,15 +18,31 @@
 }
 
 .selected {
-    background-color: green;
+    background-color: lightgreen;
 }
 
 .wrong {
-    background-color: red;
+    background-color: #ffcccc;
 }
 
 .correct {
-    background-color: green;
+    background-color: lightgreen;
+}
+
+#controls {
+    margin-top: 20px;
+}
+
+#controls button {
+    margin: 0 10px;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+
+#timer {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 #result-label {
