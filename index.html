@@ -118,22 +118,12 @@
                 cell.classList.remove("selected");
                 selectedLetters = selectedLetters.replace(cell.textContent, "");
             } else {
-                // Check if cell is adjacent to previously selected cells
-                if (selectedLetters === "" || isAdjacent(cell)) {
+                // Check if cell is already selected
+                if (!cell.classList.contains("selected")) {
                     cell.classList.add("selected");
                     selectedLetters += cell.textContent;
                 }
             }
-        }
-
-        // Function to check if cell is adjacent to previously selected cells
-        function isAdjacent(cell) {
-            let selectedCells = document.querySelectorAll(".selected");
-            if (selectedCells.length === 0) return true; // First selection
-            let lastCell = selectedCells[selectedCells.length - 1];
-            let lastCellIndex = lastCell.cellIndex + 5 * lastCell.parentNode.rowIndex;
-            let currentCellIndex = cell.cellIndex + 5 * cell.parentNode.rowIndex;
-            return Math.abs(currentCellIndex - lastCellIndex) === 1 || Math.abs(currentCellIndex - lastCellIndex) === 5;
         }
 
         // Function to validate the selected word
