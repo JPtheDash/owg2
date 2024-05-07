@@ -30,27 +30,10 @@
     </div>
 
     <script>
-        // Odia words array
-        const odiaWords = [
-            'କଟକ', 'ଭଦ୍ରକ', 'ଗଞ୍ଜାମ', 'କାଳିଆ', 'ଅଭଦ୍ର',
-            'ନଡ଼ିଆ', 'ପାଗଳ', 'ବିବିଧ', 'ବଜାର', 'ବିଶାଖା', 'ଅମୃତ'
+        // List of provided characters
+        const characters = [
+            'କ', 'ଟ', 'ଗ', 'ଞ୍ଜା', 'ମ', 'ଭ', 'ଦ୍ର', 'କ', 'ଖୋ', 'ର୍ଦ୍ଦା'
         ];
-
-        // Function to split Odia word into individual letters
-        function splitWordIntoLetters(word) {
-            const letters = [];
-            for (let i = 0; i < word.length; i++) {
-                // For Odia characters, each letter can consist of multiple characters
-                if (word.charCodeAt(i) >= 0x0B01 && word.charCodeAt(i) <= 0x0B71) {
-                    letters.push(word.charAt(i));
-                } else {
-                    // For non-Odia characters, consider as a single letter
-                    letters.push(word.charAt(i) + word.charAt(i + 1));
-                    i++; // Increment i to skip the next character
-                }
-            }
-            return letters;
-        }
 
         // Function to shuffle array
         function shuffleArray(array) {
@@ -61,21 +44,15 @@
             return array;
         }
 
-        // Shuffle Odia words array
-        shuffleArray(odiaWords);
+        // Shuffle characters array
+        shuffleArray(characters);
 
-        // Select first 9 letters from shuffled Odia words array
-        const selectedLetters = odiaWords.slice(0, 9);
-
-        // Split selected letters into individual letters
-        const individualLetters = selectedLetters.flatMap(word => splitWordIntoLetters(word));
-
-        // Update grid cells with individual letters
+        // Update grid cells with characters
         const grid = document.getElementById('grid');
-        individualLetters.slice(0, 9).forEach(letter => {
+        characters.slice(0, 9).forEach(character => {
             const cell = document.createElement('div');
             cell.classList.add('cell');
-            cell.textContent = letter;
+            cell.textContent = character;
             grid.appendChild(cell);
         });
     </script>
