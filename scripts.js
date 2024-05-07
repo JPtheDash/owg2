@@ -1,7 +1,6 @@
-// Define your list of words here
-const words = ["ଖୋର୍ଦ୍ଧା" ,"କଟକ","ଯାଜପୁର", "ପୂରୀ","ନୟାଗଡ଼","ବରଗଡ଼","ଭଦ୍ରକ", "ପୁରୀ"];
+const words = ["example", "word", "puzzle", "crossword", "game"];
+let selectedCells = [];
 
-// Function to generate random letters for the puzzle
 function generateRandomLetters() {
     let randomLetters = [];
     for (let i = 0; i < 25; i++) {
@@ -12,7 +11,6 @@ function generateRandomLetters() {
     return randomLetters;
 }
 
-// Function to populate the puzzle table with random letters
 function populatePuzzle() {
     let puzzleTable = document.getElementById("puzzle");
     let letters = generateRandomLetters();
@@ -22,18 +20,39 @@ function populatePuzzle() {
         for (let j = 0; j < 5; j++) {
             let cell = row.insertCell(j);
             cell.textContent = letters[cellIndex++];
+            cell.addEventListener("click", function() {
+                toggleCell(cell);
+            });
         }
     }
 }
 
-// Function to refresh the puzzle table with new random letters
+function toggleCell(cell) {
+    if (cell.classList.contains("selected")) {
+        cell.classList.remove("selected");
+    } else {
+        cell.classList.add("selected");
+        selectedCells.push(cell);
+    }
+}
+
+function validateWord() {
+    let selectedWord = selectedCells.map(cell => cell.textContent).join("");
+    if (words.includes(selectedWord)) {
+        selectedCells.forEach(cell => cell.classList.add("correct"));
+        document.getElementById("result-label").textContent = "ଚମତ୍କାର";
+    } else {
+        selectedCells.forEach(cell => cell.classList.add("wrong"));
+    }
+}
+
 function refreshTable() {
     let puzzleTable = document.getElementById("puzzle");
     puzzleTable.innerHTML = "";
+    selectedCells = [];
     populatePuzzle();
 }
 
-// Function to start the timer
 function startTimer() {
     let timeLeft = 45;
     let timerElement = document.getElementById("timer");
@@ -51,12 +70,13 @@ function startTimer() {
     }, 1000);
 }
 
-// Event listener for OK button click
 document.getElementById("ok-btn").addEventListener("click", function() {
-    // Add your validation logic here
-    // Calculate score based on the selected word
+    validateWord();
 });
 
-// Populate the puzzle table and start the timer when the page loads
+document.getElementById("refresh-btn").addEventListener("click", function() {
+    refreshTable();
+});
+
 populatePuzzle();
 startTimer();
