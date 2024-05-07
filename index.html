@@ -42,6 +42,19 @@
             padding: 5px 10px;
         }
 
+        #timer-container {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
         #result-label {
             font-size: 24px;
             font-weight: bold;
@@ -56,6 +69,10 @@
         <div id="controls">
             <button id="ok-btn">OK</button>
             <button id="refresh-btn">🔁</button>
+            <div id="timer-container">
+                <img src="timer_icon.png" alt="⌛" height="24px" width="24px">
+                <div id="timer">45</div>
+            </div>
             <div id="result-label"></div>
         </div>
     </div>
@@ -121,11 +138,25 @@
 
         // Function to validate the selected word
         function validateWord() {
+            let selectedCells = document.querySelectorAll(".selected");
+            if (selectedCells.length === 0) return;
+
             if (words.includes(selectedLetters)) {
+                selectedCells.forEach(cell => cell.classList.add("correct"));
                 document.getElementById("result-label").textContent = "Correct!";
+                setTimeout(refreshTable, 1000); // Shuffle the table after 1 second
             } else {
-                document.getElementById("result-label").textContent = "Wrong!";
+                selectedCells.forEach(cell => cell.classList.add("wrong"));
+                setTimeout(resetSelection, 1000); // Reset selection after 1 second
             }
+        }
+
+        // Function to reset cell selection
+        function resetSelection() {
+            let selectedCells = document.querySelectorAll(".selected");
+            selectedCells.forEach(cell => cell.classList.remove("selected"));
+            selectedLetters = "";
+            document.getElementById("result-label").textContent = ""; // Clear result label
         }
 
         // Function to refresh the puzzle table
@@ -147,8 +178,27 @@
             refreshTable();
         });
 
-        // Populate the puzzle table when the page loads
+        // Populate the puzzle table and start the timer when the page loads
         populatePuzzle();
+
+        // Function to start the timer
+        function startTimer() {
+            let timeLeft = 45;
+            let timerElement = document.getElementById("timer");
+            let timerInterval = setInterval(function() {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                if (timeLeft <= 10) {
+                    timerElement.style.color = "red";
+                }
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    alert("Time's up!");
+                }
+            }, 1000);
+        }
+
+        startTimer(); // Start the timer when the page loads
     </script>
 </body>
 </html>
