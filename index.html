@@ -34,17 +34,26 @@
             font-size: 1.2rem;
         }
 
-        #okButton {
+        #okButton, #resetButton {
             display: block;
-            margin: 20px auto;
+            margin: 10px auto;
             padding: 10px 20px;
             font-size: 1.2rem;
             cursor: pointer;
         }
+
+        #timer {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 1.5rem;
+            color: #ff0000; /* Red color for better visibility */
+        }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">OWP ଜିଲ୍ଲା ଖୋଜ</h1>
+    <h1 style="text-align: center;">Odia Word Puzzle Game</h1>
+    <div id="timer">00:00</div>
     <table>
         <tbody id="grid">
             <!-- Cells will be populated dynamically -->
@@ -52,18 +61,12 @@
     </table>
     <div class="score" id="score">Score: 0</div>
     <button id="okButton">OK</button>
+    <button id="resetButton">Reset</button>
 
     <script>
-        // Word list to validate user-formed words
-        const wordList = [
-            'ଗଞ୍ଜାମ',"ଖୋର୍ଦ୍ଧା" ,"କଟକ","ଯାଜପୁର", "ପୂରୀ","ନୟାଗଡ଼","ବରଗଡ଼","ଭଦ୍ରକ", "ପୁରୀ"
-        ];
-
         // Function to generate random letters
         function generateRandomLetters() {
-            const characters = [
-                'କ', 'ଟ', 'ଗ', 'ଞ୍ଜା', 'ମ', 'ଭ', 'ଦ୍ର', 'କ', 'ଖୋ', 'ର୍ଦ୍ଦା','କ','ଟ','ଯା','ଜ','ପୁ','ର', "ପୂ",'ରୀ','ନ','ୟା','ଗ','ଡ଼','ବ'
-            ];
+            const characters = ['କ', 'ଟ', 'ଗ', 'ଞ୍ଜା', 'ମ', 'ଭ', 'ଦ୍ର', 'କ', 'ଖୋ', 'ର୍ଦ୍ଦା'];
             shuffleArray(characters);
             return characters.slice(0, 9);
         }
@@ -105,10 +108,33 @@
         let selectedWord = '';
         let score = 0;
         const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        let timeLeft = 25;
+        let timerInterval;
+
+        // Update timer display every second
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                timerElement.textContent = `${minutes}:${seconds}`;
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    resetGame();
+                }
+                timeLeft--;
+            }, 1000);
+        }
 
         // Event listener for clicking "OK" button
         document.getElementById('okButton').addEventListener('click', () => {
             validateWord(selectedWord);
+        });
+
+        // Event listener for clicking "Reset" button
+        document.getElementById('resetButton').addEventListener('click', () => {
+            resetGame();
         });
 
         // Event listener for Enter key press
@@ -118,17 +144,28 @@
             }
         });
 
+        // Function to reset the game
+        function resetGame() {
+            clearInterval(timerInterval);
+            timeLeft = 25;
+            selectedWord = '';
+            timerElement.textContent = '00:00';
+            score = 0;
+            scoreElement.textContent = `Score: ${score}`;
+            resetSelection();
+            updateGridWithLetters();
+            startTimer();
+        }
+
         // Function to validate the formed word
         function validateWord(word) {
-            if (wordList.includes(word)) {
-                alert(`Valid word: ${word}`);
-                updateScore(word.length);
-                resetSelection();
-                updateGridWithLetters(); // Reset grid with new letters
-            } else {
-                alert(`Invalid word: ${word}`);
-                resetSelection(); // Reset selection for invalid word
+            if (word.length === 0) {
+                alert('Please select some letters to form a word.');
+                return;
             }
+            alert(`Word formed: ${word}`);
+            // Your word validation logic here
+            resetSelection();
         }
 
         // Function to reset the selection
@@ -139,14 +176,9 @@
             });
         }
 
-        // Function to update the score
-        function updateScore(points) {
-            score += points;
-            scoreElement.textContent = `Score: ${score}`;
-        }
-
-        // Initial setup: populate grid with letters
+        // Initial setup: populate grid with letters and start the timer
         updateGridWithLetters();
+        startTimer();
     </script>
 </body>
 </html>
