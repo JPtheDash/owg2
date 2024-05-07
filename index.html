@@ -126,7 +126,7 @@
             }
         }
 
-        // Function to validate the selected word
+       // Function to validate the selected word
 function validateWord() {
     let selectedCells = document.querySelectorAll(".selected");
     if (selectedCells.length === 0) return;
@@ -141,14 +141,20 @@ function validateWord() {
     }
 }
 
+// Function to reset cell selection and clear wrong indication
+function resetSelection() {
+    let selectedCells = document.querySelectorAll(".selected");
+    selectedCells.forEach(cell => {
+        cell.classList.remove("selected");
+        cell.classList.remove("wrong");
+    });
+    selectedLetters = "";
+    document.getElementById("result-label").textContent = ""; // Clear result label
+}
 
-        // Function to reset cell selection
-        function resetSelection() {
-            let selectedCells = document.querySelectorAll(".selected");
-            selectedCells.forEach(cell => cell.classList.remove("selected"));
-            selectedLetters = "";
-            document.getElementById("result-label").textContent = ""; // Clear result label
-        }
+
+
+        
 
         // Function to refresh the puzzle table
         function refreshTable() {
