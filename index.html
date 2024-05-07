@@ -61,7 +61,7 @@
 
         // Update grid cells with individual letters
         const grid = document.getElementById('grid');
-        individualLetters.forEach(letter => {
+        individualLetters.slice(0, 9).forEach(letter => {
             const cell = document.createElement('div');
             cell.classList.add('cell');
             cell.textContent = letter;
