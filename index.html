@@ -17,6 +17,7 @@
             border: 1px solid black;
             text-align: center;
             vertical-align: middle;
+            cursor: pointer; /* Add cursor pointer for better user experience */
         }
 
         .selected {
@@ -91,8 +92,27 @@
                 for (let j = 0; j < 5; j++) {
                     let cell = row.insertCell(j);
                     cell.textContent = letters[cellIndex++];
+                    cell.addEventListener("click", function() {
+                        toggleCell(cell);
+                    });
                 }
             }
+        }
+
+        // Function to toggle cell selection
+        function toggleCell(cell) {
+            if (cell.classList.contains("selected")) {
+                cell.classList.remove("selected");
+            } else {
+                clearSelection(); // Clear previous selection
+                cell.classList.add("selected");
+            }
+        }
+
+        // Function to clear cell selection
+        function clearSelection() {
+            let selectedCells = document.querySelectorAll(".selected");
+            selectedCells.forEach(cell => cell.classList.remove("selected"));
         }
 
         // Function to start the timer
@@ -112,25 +132,35 @@
             }, 1000);
         }
 
-        // Event listener for OK button
-        document.getElementById("ok-btn").addEventListener("click", function() {
-            // Function to validate the selected word
+        // Function to validate the selected word
+        function validateWord() {
             let selectedCells = document.querySelectorAll(".selected");
             let selectedWord = Array.from(selectedCells).map(cell => cell.textContent).join("");
             if (words.includes(selectedWord)) {
                 selectedCells.forEach(cell => cell.classList.add("correct"));
                 document.getElementById("result-label").textContent = "Correct!";
+                setTimeout(refreshTable, 1000); // Shuffle the table after 1 second
             } else {
                 selectedCells.forEach(cell => cell.classList.add("wrong"));
+                clearSelection(); // Reset selection
             }
+        }
+
+        // Function to refresh the puzzle table
+        function refreshTable() {
+            let puzzleTable = document.getElementById("puzzle");
+            puzzleTable.innerHTML = "";
+            populatePuzzle();
+        }
+
+        // Event listener for OK button
+        document.getElementById("ok-btn").addEventListener("click", function() {
+            validateWord();
         });
 
         // Event listener for Refresh button
         document.getElementById("refresh-btn").addEventListener("click", function() {
-            // Function to refresh the puzzle table
-            let puzzleTable = document.getElementById("puzzle");
-            puzzleTable.innerHTML = "";
-            populatePuzzle();
+            refreshTable();
         });
 
         // Populate the puzzle table and start the timer when the page loads
