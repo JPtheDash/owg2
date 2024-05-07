@@ -1,21 +1,62 @@
-// Define a list of Odia letters
-const odiaLetters = ['ଅ', 'ଆ', 'ଇ', 'ଈ', 'ଉ', 'ଊ', 'ଋ', 'ଏ', 'ଐ', 'ଓ', 'ଔ', 'କ', 'ଖ', 'ଗ', 'ଘ', 'ଙ', 'ଚ', 'ଛ', 'ଜ', 'ଝ', 'ଞ', 'ଟ', 'ଠ', 'ଡ', 'ଢ', 'ଣ', 'ତ', 'ଥ', 'ଦ', 'ଧ', 'ନ', 'ପ', 'ଫ', 'ବ', 'ଭ', 'ମ', 'ଯ', 'ୟ', 'ର', 'ଲ', 'ଳ', 'ଵ', 'ଶ', 'ଷ', 'ସ', 'ହ'];
+// Define your list of words here
+const words = ["ଖୋର୍ଦ୍ଧା" ,"କଟକ","ଯାଜପୁର", "ପୂରୀ","ନୟାଗଡ଼","ବରଗଡ଼","ଭଦ୍ରକ", "ପୁରୀ"];
 
-// Function to generate a random Odia letter
-function getRandomLetter() {
-    return odiaLetters[Math.floor(Math.random() * odiaLetters.length)];
+// Function to generate random letters for the puzzle
+function generateRandomLetters() {
+    let randomLetters = [];
+    for (let i = 0; i < 25; i++) {
+        let randomWord = words[Math.floor(Math.random() * words.length)];
+        let randomLetter = randomWord.charAt(Math.floor(Math.random() * randomWord.length));
+        randomLetters.push(randomLetter);
+    }
+    return randomLetters;
 }
 
-// Function to initialize the game board
-function initializeGameBoard() {
-    const gameBoard = document.getElementById('game-board');
-    for (let i = 0; i < 9; i++) {
-        const box = document.createElement('div');
-        box.classList.add('box');
-        box.innerText = getRandomLetter();
-        gameBoard.appendChild(box);
+// Function to populate the puzzle table with random letters
+function populatePuzzle() {
+    let puzzleTable = document.getElementById("puzzle");
+    let letters = generateRandomLetters();
+    let cellIndex = 0;
+    for (let i = 0; i < 5; i++) {
+        let row = puzzleTable.insertRow(i);
+        for (let j = 0; j < 5; j++) {
+            let cell = row.insertCell(j);
+            cell.textContent = letters[cellIndex++];
+        }
     }
 }
 
-// Call initializeGameBoard when the DOM content is loaded
-document.addEventListener('DOMContentLoaded', initializeGameBoard);
+// Function to refresh the puzzle table with new random letters
+function refreshTable() {
+    let puzzleTable = document.getElementById("puzzle");
+    puzzleTable.innerHTML = "";
+    populatePuzzle();
+}
+
+// Function to start the timer
+function startTimer() {
+    let timeLeft = 45;
+    let timerElement = document.getElementById("timer");
+    let timerInterval = setInterval(function() {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        if (timeLeft <= 10) {
+            timerElement.style.color = "red";
+            timerElement.style.animation = "blinking 1s infinite";
+        }
+        if (timeLeft === 0) {
+            clearInterval(timerInterval);
+            alert("Time's up!");
+        }
+    }, 1000);
+}
+
+// Event listener for OK button click
+document.getElementById("ok-btn").addEventListener("click", function() {
+    // Add your validation logic here
+    // Calculate score based on the selected word
+});
+
+// Populate the puzzle table and start the timer when the page loads
+populatePuzzle();
+startTimer();
