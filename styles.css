@@ -1,26 +1,21 @@
-/* Set the background color of the table to white */
 #puzzle {
     border-collapse: collapse;
     background-color: white;
     margin: 20px auto;
 }
 
-/* Style for selected cell */
 .selected {
     background-color: green;
 }
 
-/* Style for wrong selection */
 .wrong {
     background-color: red;
 }
 
-/* Style for correct selection */
 .correct {
     background-color: green;
 }
 
-/* Style for the label */
 #result-label {
     font-size: 24px;
     font-weight: bold;
