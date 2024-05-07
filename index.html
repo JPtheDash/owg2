@@ -5,20 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odia Word Puzzle Game</title>
     <style>
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 20px;
+        body {
+            font-family: Arial, sans-serif;
         }
 
-        .cell {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 50px;
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 33.33%;
             height: 50px;
             border: 1px solid #ccc;
+            text-align: center;
+            vertical-align: middle;
             font-size: 1.2rem;
             cursor: pointer;
         }
@@ -28,19 +30,28 @@
         }
 
         .score {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            text-align: center;
             font-size: 1.2rem;
+        }
+
+        #okButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Odia Word Puzzle Game</h1>
-    <div class="grid" id="grid">
-        <!-- Cells will be populated dynamically -->
-    </div>
+    <h1 style="text-align: center;">Odia Word Puzzle Game</h1>
+    <table>
+        <tbody id="grid">
+            <!-- Cells will be populated dynamically -->
+        </tbody>
+    </table>
     <div class="score" id="score">Score: 0</div>
+    <button id="okButton">OK</button>
 
     <script>
         // Provided character list for grid cells
@@ -67,18 +78,23 @@
 
         // Update grid cells with characters
         const grid = document.getElementById('grid');
-        characters.forEach(character => {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            cell.textContent = character;
-            grid.appendChild(cell);
-        });
+        let cellIndex = 0;
+        for (let i = 0; i < 3; i++) {
+            const row = document.createElement('tr');
+            for (let j = 0; j < 3; j++) {
+                const cell = document.createElement('td');
+                cell.textContent = characters[cellIndex];
+                cellIndex++;
+                row.appendChild(cell);
+            }
+            grid.appendChild(row);
+        }
 
         let selectedWord = '';
         let score = 0;
         const scoreElement = document.getElementById('score');
 
-        const cells = document.querySelectorAll('.cell');
+        const cells = document.querySelectorAll('td');
         cells.forEach(cell => {
             cell.addEventListener('click', () => {
                 if (!cell.classList.contains('highlighted')) {
@@ -86,6 +102,10 @@
                     cell.classList.add('highlighted');
                 }
             });
+        });
+
+        document.getElementById('okButton').addEventListener('click', () => {
+            validateWord(selectedWord);
         });
 
         document.addEventListener('keydown', event => {
