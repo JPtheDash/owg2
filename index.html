@@ -42,19 +42,6 @@
             padding: 5px 10px;
         }
 
-        #timer-container {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        #timer {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: inline-block;
-            margin-right: 10px;
-        }
-
         #result-label {
             font-size: 24px;
             font-weight: bold;
@@ -69,10 +56,6 @@
         <div id="controls">
             <button id="ok-btn">OK</button>
             <button id="refresh-btn">🔁</button>
-            <div id="timer-container">
-                <img src="timer_icon.png" alt="⌛" height="24px" width="24px">
-                <div id="timer">45</div>
-            </div>
             <div id="result-label"></div>
         </div>
     </div>
@@ -81,8 +64,8 @@
         // List of words for the puzzle
         const words = ["example", "word", "puzzle", "crossword", "game"];
 
-        // Variables to keep track of selected word
-        let selectedWord = "";
+        // Variable to store the selected word
+        let selectedLetters = "";
 
         // Function to generate random letters for the puzzle
         function generateRandomLetters() {
@@ -116,12 +99,12 @@
         function toggleCell(cell) {
             if (cell.classList.contains("selected")) {
                 cell.classList.remove("selected");
-                selectedWord = selectedWord.replace(cell.textContent, "");
+                selectedLetters = selectedLetters.replace(cell.textContent, "");
             } else {
                 // Check if cell is adjacent to previously selected cells
-                if (selectedWord === "" || isAdjacent(cell)) {
+                if (selectedLetters === "" || isAdjacent(cell)) {
                     cell.classList.add("selected");
-                    selectedWord += cell.textContent;
+                    selectedLetters += cell.textContent;
                 }
             }
         }
@@ -136,42 +119,13 @@
             return Math.abs(currentCellIndex - lastCellIndex) === 1 || Math.abs(currentCellIndex - lastCellIndex) === 5;
         }
 
-        // Function to start the timer
-        function startTimer() {
-            let timeLeft = 45;
-            let timerElement = document.getElementById("timer");
-            let timerInterval = setInterval(function() {
-                timeLeft--;
-                timerElement.textContent = timeLeft;
-                if (timeLeft <= 10) {
-                    timerElement.style.color = "red";
-                }
-                if (timeLeft === 0) {
-                    clearInterval(timerInterval);
-                    alert("Time's up!");
-                }
-            }, 1000);
-        }
-
         // Function to validate the selected word
         function validateWord() {
-            let selectedCells = document.querySelectorAll(".selected");
-            if (selectedCells.length === 0) return;
-            if (words.includes(selectedWord)) {
-                selectedCells.forEach(cell => cell.classList.add("correct"));
+            if (words.includes(selectedLetters)) {
                 document.getElementById("result-label").textContent = "Correct!";
             } else {
-                selectedCells.forEach(cell => cell.classList.add("wrong"));
+                document.getElementById("result-label").textContent = "Wrong!";
             }
-            setTimeout(resetSelection, 1000); // Reset selection after 1 second
-        }
-
-        // Function to reset cell selection and selected word
-        function resetSelection() {
-            let selectedCells = document.querySelectorAll(".selected");
-            selectedCells.forEach(cell => cell.classList.remove("selected"));
-            selectedWord = "";
-            document.getElementById("result-label").textContent = "";
         }
 
         // Function to refresh the puzzle table
@@ -179,7 +133,8 @@
             let puzzleTable = document.getElementById("puzzle");
             puzzleTable.innerHTML = "";
             populatePuzzle();
-            resetSelection();
+            selectedLetters = ""; // Reset selected letters
+            document.getElementById("result-label").textContent = ""; // Clear result label
         }
 
         // Event listener for OK button
@@ -192,9 +147,8 @@
             refreshTable();
         });
 
-        // Populate the puzzle table and start the timer when the page loads
+        // Populate the puzzle table when the page loads
         populatePuzzle();
-        startTimer();
     </script>
 </body>
 </html>
