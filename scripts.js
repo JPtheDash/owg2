@@ -1,4 +1,4 @@
-const words = ["ଖୋର୍ଦ୍ଧା" ,"କଟକ","ଯାଜପୁର", "ପୂରୀ","ନୟାଗଡ଼","ବରଗଡ଼","ଭଦ୍ରକ", "ପୁରୀ"];
+const words = ["example", "word", "puzzle", "crossword", "game"];
 let selectedCells = [];
 
 function generateRandomLetters() {
@@ -30,6 +30,7 @@ function populatePuzzle() {
 function toggleCell(cell) {
     if (cell.classList.contains("selected")) {
         cell.classList.remove("selected");
+        selectedCells = selectedCells.filter(selectedCell => selectedCell !== cell);
     } else {
         cell.classList.add("selected");
         selectedCells.push(cell);
@@ -61,7 +62,6 @@ function startTimer() {
         timerElement.textContent = timeLeft;
         if (timeLeft <= 10) {
             timerElement.style.color = "red";
-            timerElement.style.animation = "blinking 1s infinite";
         }
         if (timeLeft === 0) {
             clearInterval(timerInterval);
