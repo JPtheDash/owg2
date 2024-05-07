@@ -1,3 +1,10 @@
+// script.js
+
+document.addEventListener("DOMContentLoaded", function() {
+    populatePuzzle();
+    startTimer();
+});
+
 // List of words for the puzzle
 const words = ["example", "word", "puzzle", "crossword", "game"];
 
@@ -42,7 +49,3 @@ function startTimer() {
         }
     }, 1000);
 }
-
-// Populate the puzzle table and start the timer when the page loads
-populatePuzzle();
-startTimer();
