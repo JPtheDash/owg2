@@ -38,7 +38,18 @@
 
         // Function to split Odia word into individual letters
         function splitWordIntoLetters(word) {
-            return [...word];
+            const letters = [];
+            for (let i = 0; i < word.length; i++) {
+                // For Odia characters, each letter can consist of multiple characters
+                if (word.charCodeAt(i) >= 0x0B01 && word.charCodeAt(i) <= 0x0B71) {
+                    letters.push(word.charAt(i));
+                } else {
+                    // For non-Odia characters, consider as a single letter
+                    letters.push(word.charAt(i) + word.charAt(i + 1));
+                    i++; // Increment i to skip the next character
+                }
+            }
+            return letters;
         }
 
         // Function to shuffle array
