@@ -4,14 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odia Word Puzzle Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="game-container">
-        <div id="game-board">
-            <!-- Grid of 3x3 boxes will be generated dynamically -->
-        </div>
+    <h1>Odia Word Puzzle Game</h1>
+    <div class="grid">
+        <div class="cell">କ</div>
+        <div class="cell">ଟ</div>
+        <div class="cell">କ</div>
+        <div class="cell">ଭ</div>
+        <div class="cell">ଦ୍ର</div>
+        <div class="cell">କ</div>
+        <div class="cell">ଗ</div>
+        <div class="cell">ଞ୍ଜ</div>
+        <div class="cell">ା</div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        // Odia words array
+        const odiaWords = [
+            'କଟକ', 'ଭଦ୍ରକ', 'ଗଞ୍ଜାମ', 'କାଳିଆ', 'ଅଭଦ୍ର',
+            'ନଡ଼ିଆ', 'ପାଗଳ', 'ବିବିଧ', 'ବଜାର', 'ବିଶାଖା', 'ଅମୃତ'
+        ];
+
+        // Function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Shuffle Odia words array
+        shuffleArray(odiaWords);
+
+        // Select first 9 letters from shuffled Odia words array
+        const selectedLetters = odiaWords.slice(0, 9);
+
+        // Update grid cells with selected letters
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach((cell, index) => {
+            cell.textContent = selectedLetters[index];
+        });
+    </script>
 </body>
 </html>
