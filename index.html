@@ -25,16 +25,16 @@
 </head>
 <body>
     <h1>Odia Word Puzzle Game</h1>
-    <div class="grid">
-        <div class="cell">କ</div>
-        <div class="cell">ଟ</div>
-        <div class="cell">କ</div>
-        <div class="cell">ଭ</div>
-        <div class="cell">ଦ୍ର</div>
-        <div class="cell">କ</div>
-        <div class="cell">ଗ</div>
-        <div class="cell">ଞ୍ଜା</div>
-        <div class="cell">ମ</div>
+    <div class="grid" id="grid">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
     </div>
 
     <script>
@@ -61,8 +61,10 @@
 
         // Update grid cells with selected letters
         const cells = document.querySelectorAll('.cell');
-        cells.forEach((cell, index) => {
-            cell.textContent = selectedLetters[index];
+        let index = 0;
+        cells.forEach(cell => {
+            cell.textContent = selectedLetters[index % selectedLetters.length];
+            index++;
         });
     </script>
 </body>
