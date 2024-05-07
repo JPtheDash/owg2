@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -90,6 +90,13 @@
                     cell.textContent = letters[cellIndex];
                     cellIndex++;
                     row.appendChild(cell);
+                    // Add event listener to each cell
+                    cell.addEventListener('click', () => {
+                        if (!cell.classList.contains('highlighted')) {
+                            selectedWord += cell.textContent;
+                            cell.classList.add('highlighted');
+                        }
+                    });
                 }
                 grid.appendChild(row);
             }
@@ -98,16 +105,6 @@
         let selectedWord = '';
         let score = 0;
         const scoreElement = document.getElementById('score');
-
-        // Event listener for clicking on cells
-        document.querySelectorAll('td').forEach(cell => {
-            cell.addEventListener('click', () => {
-                if (!cell.classList.contains('highlighted')) {
-                    selectedWord += cell.textContent;
-                    cell.classList.add('highlighted');
-                }
-            });
-        });
 
         // Event listener for clicking "OK" button
         document.getElementById('okButton').addEventListener('click', () => {
