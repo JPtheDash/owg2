@@ -1,6 +1,12 @@
+// script.js
+
+// List of words for the puzzle
 const words = ["example", "word", "puzzle", "crossword", "game"];
+
+// Array to store selected cells
 let selectedCells = [];
 
+// Function to generate random letters for the puzzle
 function generateRandomLetters() {
     let randomLetters = [];
     for (let i = 0; i < 25; i++) {
@@ -11,6 +17,7 @@ function generateRandomLetters() {
     return randomLetters;
 }
 
+// Function to populate the puzzle table with random letters
 function populatePuzzle() {
     let puzzleTable = document.getElementById("puzzle");
     let letters = generateRandomLetters();
@@ -27,6 +34,7 @@ function populatePuzzle() {
     }
 }
 
+// Function to toggle cell selection
 function toggleCell(cell) {
     if (cell.classList.contains("selected")) {
         cell.classList.remove("selected");
@@ -37,16 +45,18 @@ function toggleCell(cell) {
     }
 }
 
+// Function to validate the selected word
 function validateWord() {
     let selectedWord = selectedCells.map(cell => cell.textContent).join("");
     if (words.includes(selectedWord)) {
         selectedCells.forEach(cell => cell.classList.add("correct"));
-        document.getElementById("result-label").textContent = "ଚମତ୍କାର";
+        document.getElementById("result-label").textContent = "Correct!";
     } else {
         selectedCells.forEach(cell => cell.classList.add("wrong"));
     }
 }
 
+// Function to refresh the puzzle table
 function refreshTable() {
     let puzzleTable = document.getElementById("puzzle");
     puzzleTable.innerHTML = "";
@@ -54,6 +64,7 @@ function refreshTable() {
     populatePuzzle();
 }
 
+// Function to start the timer
 function startTimer() {
     let timeLeft = 45;
     let timerElement = document.getElementById("timer");
@@ -70,6 +81,7 @@ function startTimer() {
     }, 1000);
 }
 
+// Event listeners for control buttons
 document.getElementById("ok-btn").addEventListener("click", function() {
     validateWord();
 });
@@ -78,5 +90,6 @@ document.getElementById("refresh-btn").addEventListener("click", function() {
     refreshTable();
 });
 
+// Populate the puzzle table and start the timer when the page loads
 populatePuzzle();
 startTimer();
