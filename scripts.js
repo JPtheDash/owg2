@@ -1,4 +1,4 @@
-const words = ["example", "word", "puzzle", "crossword", "game"];
+const words = ["ଖୋର୍ଦ୍ଧା" ,"କଟକ","ଯାଜପୁର", "ପୂରୀ","ନୟାଗଡ଼","ବରଗଡ଼","ଭଦ୍ରକ", "ପୁରୀ"];
 let selectedCells = [];
 
 function generateRandomLetters() {
